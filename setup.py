@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
 
-VERSION = '1.1.2'
+VERSION = '1.1.3'
 
 
 setup(name='model-log',
