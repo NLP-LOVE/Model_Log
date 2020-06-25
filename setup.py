@@ -1,14 +1,11 @@
 #-*- encoding: UTF-8 -*-
 from setuptools import setup
-"""
-打包的用的setup必须引入，
-"""
 
-with open('README.md', encoding='utf-8') as file:
+with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 
 
 setup(name='model-log',
