@@ -4,7 +4,7 @@
 
 ### 1. Model Log 介绍
 
-Model Log 是一款基于 Python 的轻量级机器学习(Machine Learning)、深度学习(Deep Learning)模型训练日志记录工具，可以记录模型训练过程当中的**超参数、Loss、Accuracy、Precision、F1值等，并以曲线图的形式进行展现对比**，轻松三步即可实现。通过调节超参数的方式多次训练模型，并使用 Model Log 工具进行记录，可以很直观的进行模型对比，堪称调参神器。以下是使用工具后模型训练时 Loss 的变化曲线图。访问线上体验版：[http://mantchs.com/model_log.html](http://mantchs.com/model_log.html)
+Model Log 是一款基于 Python3 的轻量级机器学习(Machine Learning)、深度学习(Deep Learning)模型训练日志记录工具，可以记录模型训练过程当中的**超参数、Loss、Accuracy、Precision、F1值等，并以曲线图的形式进行展现对比**，轻松三步即可实现。通过调节超参数的方式多次训练模型，并使用 Model Log 工具进行记录，可以很直观的进行模型对比，堪称调参神器。以下是使用工具后模型训练时 Loss 的变化曲线图。访问线上体验版：[http://mantchs.com/model_log.html](http://mantchs.com/model_log.html)
 
 ![img](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/loss.gif)
 
@@ -33,7 +33,7 @@ Model Log 是一款基于 Python 的轻量级机器学习(Machine Learning)、�
 
 ### 4. Model Log 安装
 
-通过 pip 进行安装即可。
+Python3 以上，通过 pip 进行安装即可。
 
 ```shell
 pip install model-log
@@ -165,3 +165,4 @@ model-log
 #### 5.3 Model Log 使用示例
 
 MIST手写数字识别：[https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py](https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py)
+
