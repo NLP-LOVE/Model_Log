@@ -1,12 +1,12 @@
-![](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/model_log_logo.png)
+![img](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/model_log_logo.png)
 
 
 
 ### 1. Model Log 介绍
 
-Model Log 是一款基于 Python 的轻量级机器学习(Machine Learning)、深度学习(Deep Learning)模型训练日志记录工具，可以记录模型训练过程当中的**超参数、Loss、Accuracy、Precision、F1值等，并以曲线图的形式进行展现对比**，轻松三步即可实现。通过调节超参数的方式多次训练模型，并使用 Model Log 工具进行记录，可以很直观的进行模型对比，堪称调参神器。以下是使用工具后模型训练时 Loss 的变化曲线图。访问线上体验版：http://mantchs.com/model_log.html
+Model Log 是一款基于 Python 的轻量级机器学习(Machine Learning)、深度学习(Deep Learning)模型训练日志记录工具，可以记录模型训练过程当中的**超参数、Loss、Accuracy、Precision、F1值等，并以曲线图的形式进行展现对比**，轻松三步即可实现。通过调节超参数的方式多次训练模型，并使用 Model Log 工具进行记录，可以很直观的进行模型对比，堪称调参神器。以下是使用工具后模型训练时 Loss 的变化曲线图。访问线上体验版：[http://mantchs.com/model_log.html](http://mantchs.com/model_log.html)
 
-<img src="https://gitee.com/kkweishe/images1/raw/master/ML/wechat/loss.gif"  />
+![img](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/loss.gif)
 
 
 
@@ -27,7 +27,7 @@ Model Log 是一款基于 Python 的轻量级机器学习(Machine Learning)、�
 
 ### 3. Model Log 演示地址
 
-访问线上体验版：http://mantchs.com/model_log.html
+访问线上体验版：[http://mantchs.com/model_log.html](http://mantchs.com/model_log.html)
 
 
 
@@ -43,7 +43,7 @@ pip install model-log
 
 **注意**：若安装的过程中出现以下情况，说明 **model-log** 命令已经安装到Python下的bin目录中，如果直接输入 model-log 可能会出现 command not found，可以直接到bin目录下执行。
 
-<img src="https://gitee.com/kkweishe/images1/raw/master/ML/wechat/mistake.png" style="zoom: 50%;" />
+![img](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/mistake.png)
 
 
 
@@ -63,7 +63,7 @@ model-log
 
 启动后可在浏览器输入网址进入：http://127.0.0.1:5432
 
-也可访问线上体验版：http://mantchs.com/model_log.html
+也可访问线上体验版：[http://mantchs.com/model_log.html](http://mantchs.com/model_log.html)
 
 
 
@@ -75,7 +75,7 @@ model-log
 
 - 通过点击曲线图下方的图例，可切换不同模型的评估曲线。
 
-  ![](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/tuli.png)
+  ![img](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/tuli.png)
 
 
 
@@ -165,15 +165,3 @@ model-log
 #### 5.3 Model Log 使用示例
 
 MIST手写数字识别：[https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py](https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py)
-
-
-
-
-
-
-
-
-
-
-
-
