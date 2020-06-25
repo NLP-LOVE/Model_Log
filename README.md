@@ -166,3 +166,4 @@ model-log
 
 MIST手写数字识别：[https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py](https://github.com/NLP-LOVE/Model_Log/blob/master/demo_TF_MIST.py)
 
+![](https://gitee.com/kkweishe/images1/raw/master/ML/wechat/QRcode.gif)
