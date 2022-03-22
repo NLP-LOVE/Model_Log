@@ -29,7 +29,7 @@ def get_conn():
 
 # 构造表头
 def generate_table_head(conn, project_id):
-    sql = "select sm.sub_model_id, sm.sub_model_name, sm.sub_model_remark, sm.create_time from sub_model sm where sm.project_id=%d and sm.del_flag=0" % (project_id)
+    sql = "select sm.sub_model_id, sm.sub_model_name, sm.sub_model_remark, sm.create_time, sm.is_finish from sub_model sm where sm.project_id=%d and sm.del_flag=0" % (project_id)
     sub_model_result = conn.execute(sql).fetchall()
 
     # 构造表头
@@ -81,13 +81,11 @@ def generate_table_data(conn, table_head, sub_model_result, sub_model_param):
         best_result = conn.execute(sql)
         dic = {}
 
-        flag = False
         for best in best_result:
             if best[0] not in best_head:
                 best_head.append(best[0])
 
             dic[best[0]] = best[1]
-            flag = True
 
         best_data[sub_model[0]] = dic
 
@@ -99,11 +97,7 @@ def generate_table_data(conn, table_head, sub_model_result, sub_model_param):
         dic['sub_model_name'] = sub_model[1]
         dic['sub_model_remark'] = sub_model[2]
         dic['create_time'] = sub_model[3]
-
-        if flag:
-            dic['finished_train'] = True
-        else:
-            dic['finished_train'] = False
+        dic['finished_train'] = False if sub_model[4] == 0 else True
 
         # 超参数
         for _, param_list in table_head.items():
@@ -169,13 +163,38 @@ def generate_loss_data(conn, project_id, sub_model_result):
 
     return legend, x_value, series
 
-def generate_new_loss(conn, sub_model_id, sub_model_name):
 
-    sql = "select md.metric_value from model_metric md where md.sub_model_id=%d and md.metric_name='train_loss'" % (sub_model_id)
+def generate_train_test_data(conn, sub_model_result, type):
+
+    legend = {}
+    series = []
+    for i, sub_model in enumerate(sub_model_result):
+
+        if i + 1 == len(sub_model_result):
+            legend[sub_model[1] + '_train'] = 'true'
+            legend[sub_model[1] + '_test'] = 'true'
+        else:
+            legend[sub_model[1] + '_train'] = 'false'
+            legend[sub_model[1] + '_test'] = 'false'
+
+        sql = f"select md.metric_value from model_metric md where md.sub_model_id={sub_model[0]} and md.metric_name='train_{type}'"
+        train_value = [value[0] for value in conn.execute(sql)]
+        data_dic = {'name': sub_model[1] + '_train', 'data': str(train_value)}
+        series.append(data_dic)
+
+        sql = f"select md.metric_value from model_metric md where md.sub_model_id={sub_model[0]} and md.metric_name='test_{type}'"
+        test_value = [value[0] for value in conn.execute(sql)]
+        data_dic = {'name': sub_model[1] + '_test', 'data': str(test_value)}
+        series.append(data_dic)
+
+    return legend, series
+
+def generate_new_loss(conn, sub_model_id, sub_model_name, type):
+
+    sql = f"select md.metric_value from model_metric md where md.sub_model_id={sub_model_id} and md.metric_name='train_{type}'"
     train_value = [value[0] for value in conn.execute(sql)]
 
-    sql = "select md.metric_value from model_metric md where md.sub_model_id=%d and md.metric_name='test_loss'" % (
-        sub_model_id)
+    sql = f"select md.metric_value from model_metric md where md.sub_model_id={sub_model_id} and md.metric_name='test_{type}'"
     test_value = [value[0] for value in conn.execute(sql)]
 
     data_list_loss = {'xAxis':{'data':[i for i in range(1, len(train_value) + 1)]},
@@ -379,16 +398,16 @@ def project_detail():
     legend, x_value, series = generate_loss_data(conn, project_id, sub_model_result)
 
     # 构造 acc画图数据
-    legend_acc, series_acc = generate_indicater_data(conn, sub_model_result, 'test_acc')
+    legend_acc, series_acc = generate_train_test_data(conn, sub_model_result, 'acc')
 
     # 构造recall画图数据
-    legend_recall, series_recall = generate_indicater_data(conn, sub_model_result, 'test_recall')
+    legend_recall, series_recall = generate_train_test_data(conn, sub_model_result, 'recall')
 
     # 构造 precision画图数据
-    legend_precision, series_precision = generate_indicater_data(conn, sub_model_result, 'test_precision')
+    legend_precision, series_precision = generate_train_test_data(conn, sub_model_result, 'precision')
 
     # 构造 F1画图数据
-    legend_F1, series_F1 = generate_indicater_data(conn, sub_model_result, 'test_F1')
+    legend_F1, series_F1 = generate_train_test_data(conn, sub_model_result, 'F1')
 
     # 模型个数
     if 'nick_name' not in session:
@@ -430,19 +449,19 @@ def get_new_data():
         sub_model_name = conn.execute(sql).fetchall()[0][1]
 
         # loss
-        data_list_loss = generate_new_loss(conn, sub_model_id, sub_model_name)
+        data_list_loss = generate_new_loss(conn, sub_model_id, sub_model_name, 'loss')
 
         # acc
-        data_list_acc = generate_new_indicater_data(conn, sub_model_id, sub_model_name, 'test_acc')
+        data_list_acc = generate_new_loss(conn, sub_model_id, sub_model_name, 'acc')
 
         # recall
-        data_list_recall = generate_new_indicater_data(conn, sub_model_id, sub_model_name, 'test_recall')
+        data_list_recall = generate_new_loss(conn, sub_model_id, sub_model_name, 'recall')
 
         # precision
-        data_list_precision = generate_new_indicater_data(conn, sub_model_id, sub_model_name, 'test_precision')
+        data_list_precision = generate_new_loss(conn, sub_model_id, sub_model_name, 'precision')
 
         # F1
-        data_list_F1 = generate_new_indicater_data(conn, sub_model_id, sub_model_name, 'test_F1')
+        data_list_F1 = generate_new_loss(conn, sub_model_id, sub_model_name, 'F1')
 
         # 判断是否训练完成
         sql = "select count(1) from best_result br where br.sub_model_id=%d" % (sub_model_id)
@@ -571,6 +590,26 @@ def del_sub_model():
 
     return jsonify(message)
 
+@app.route('/finish_model', methods=['POST'])
+def finish_model():
+    sub_model_id = request.get_json()['sub_model_id']
+    message = {}
+    conn = get_conn()
+
+    try:
+        sql = f'update sub_model set is_finish=1 where sub_model_id={sub_model_id}'
+        conn.execute(sql)
+        conn.commit()
+        message['is_success'] = True
+
+    except Exception as e:
+        message['is_success'] = False
+        message['msg'] = '选中id错误！'
+        print(e)
+
+    conn.close()
+    return jsonify(message)
+
 # db operation=================================================================
 
 
@@ -624,6 +663,8 @@ def get_page_num():
 @app.route('/alert')
 def alert():
     return render_template('alert.html')
+
+
 
 
 def my_exit(signum, frame):

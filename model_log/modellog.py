@@ -19,7 +19,7 @@ def check_str(s, type):
 class ModelLog(object):
 
     """
-    :param nick_name:        str，用户名，多人使用下可起到数据隔离。
+    :param nick_name:        str，昵称，多人使用下可起到数据隔离。
     :param project_name:     str，项目名称。
     :param project_remark:   str，项目备注，默认为空。
 
@@ -106,7 +106,7 @@ class ModelLog(object):
 
         check_str(metric_name, 'metric_name')
 
-        if metric_name not in ['train_loss', 'test_loss', 'test_acc', 'test_recall', 'test_precision', 'test_F1']:
+        if metric_name not in ['train_loss', 'test_loss', 'train_acc', 'test_acc', 'train_recall', 'test_recall', 'train_precision', 'test_precision', 'train_F1', 'test_F1']:
             raise Exception("Your metric_name：%s, not in ['train_loss', 'test_loss', 'test_acc', 'test_recall', 'test_precision', 'test_F1']" % (metric_name))
 
         if self.is_add_model_data:
@@ -134,6 +134,12 @@ class ModelLog(object):
         create_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         sql = "insert into best_result values (null, ?, ?, ?, ?, ?)"
         self.conn.execute(sql, (self.sub_model_id, best_name, '%.4f' % (best_value), best_epoch, create_time))
+
+        self.conn.commit()
+
+    def finish_model(self):
+        sql = f"update sub_model set is_finish=1 where sub_model_id={self.sub_model_id}"
+        self.conn.execute(sql)
 
         self.conn.commit()
 
@@ -175,7 +181,7 @@ class ModelLog(object):
 
         # 插入sub model
         model_name = self.__check_model_name(self.model_name, sub_model_count, project_id)
-        sql = "insert into sub_model values (null, ?, ?, ?, ?, ?, ?, 0)"
+        sql = "insert into sub_model values (null, ?, ?, ?, ?, ?, ?, 0, 0)"
         self.conn.execute(sql, (project_id, sub_model_count + 1, model_name, self.remark, self.nick_name, self.start_time))
         self.conn.commit()
 

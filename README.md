@@ -128,12 +128,12 @@ model-log
    ```python
    """
    :param metric_name:  str，评估指标名称，
-   	可选择['train_loss', 'test_loss', 'test_acc', 'test_recall', 'test_precision', 'test_F1']
+   	可选择['train_loss', 'test_loss', 'train_acc', 'test_acc', 'train_recall', 'test_recall', 'train_precision', 'test_precision', 'train_F1', 'test_F1']
    
    :param metric_value: float，评估指标数值。
    :param epoch:        int，训练周期
    
-   metric_name 参数只可以选择以上六种
+   metric_name 参数只可以选择以上十种
    第一次调用该 API 时，会把以上设置的数据(模型名称、备注等)持久化到 SQLite 数据库，并且 web 端会自动获取数据进行图形化展示。
    可以在每个 epoch 周期的最后使用该 API 添加训练集和测试集的评估指标，web 端会自动获取该数据。
    """
@@ -153,13 +153,14 @@ model-log
    添加当前模型训练中最佳的评估数据，一般放到模型训练的最后进行添加。
    """
    model_log.add_best_result(best_name='best_loss', best_value=1.2122, best_epoch=30)
+   model_log.finish_model()
    
    """
    关闭 SQLite 数据库连接
    """
    model_log.close()
    ```
-
+   
    
 
 

@@ -1,24 +1,25 @@
 #-*- encoding: UTF-8 -*-
-from setuptools import setup
+from setuptools import setup, find_packages
+"""
+打包的用的setup必须引入，
+"""
 
-with open('README.md', 'r', encoding='utf-8') as file:
-    long_description = file.read()
 
+VERSION = '1.1.9'
 
-VERSION = '1.1.3'
-
+with open('README.md', encoding='utf-8') as fp:
+    readme = fp.read()
 
 setup(name='model-log',
       version=VERSION,
       description="test description",
-      long_description=long_description,
-      long_description_content_type="text/markdown",
+      long_description=readme,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='python,machine-learning,deep-learning,metric,loss',
+      keywords='python ML DL model log',
       author='mantch',
       author_email='mantchs@163.com',
-      url='https://github.com/NLP-LOVE/Model_Log',
-      license='Apache License 2.0',
+      url='https://github.com/NLP-LOVE',
+      license='MIT',
       packages=['model_log'],
       include_package_data=True,
       zip_safe=True,
